@@ -17,38 +17,36 @@ interface OutfitCanvasProps {
   removeItem: (id: string) => void
 }
 
-// Update the OutfitCanvas component to prevent unintended interactions
 export default function OutfitCanvas({ items, updateItemPosition, removeItem }: OutfitCanvasProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "clothing-item",
     drop: (item: { id: string; name: string; image: string; price: number; type?: string }, monitor) => {
-      // Only process if we're actually dropping a new item from the sidebar
+  
       if (!monitor.didDrop()) {
         const delta = monitor.getClientOffset()
         const canvasRect = document.getElementById("outfit-canvas")?.getBoundingClientRect()
 
         if (delta && canvasRect) {
-          // Calculate position relative to canvas
+         
           const x = delta.x - canvasRect.left
           let y = delta.y - canvasRect.top
 
-          // If the item has a type, adjust the position based on the type
+         
           if (item.type) {
             const canvasWidth = canvasRect.width
             const canvasHeight = canvasRect.height
 
             switch (item.type) {
               case "tops":
-                y = Math.min(y, canvasHeight * 0.3) // Keep tops in the top 30% of canvas
+                y = Math.min(y, canvasHeight * 0.3) 
                 break
               case "bottoms":
-                y = canvasHeight * 0.4 + canvasHeight * 0.2 * Math.random() // Middle area
+                y = canvasHeight * 0.4 + canvasHeight * 0.2 * Math.random() 
                 break
               case "shoes":
-                y = Math.max(y, canvasHeight * 0.7) // Keep shoes in bottom 30% of canvas
+                y = Math.max(y, canvasHeight * 0.7) 
                 break
-              // Accessories can be placed anywhere
             }
           }
 
@@ -92,7 +90,7 @@ export default function OutfitCanvas({ items, updateItemPosition, removeItem }: 
             <div className="relative group">
               <button
                 onClick={(e) => {
-                  e.stopPropagation() // Prevent event bubbling
+                  e.stopPropagation()
                   removeItem(item.id)
                 }}
                 className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity z-10"
@@ -104,7 +102,7 @@ export default function OutfitCanvas({ items, updateItemPosition, removeItem }: 
                 alt={item.name}
                 className="w-20 h-20 object-contain"
                 draggable={false}
-                onClick={(e) => e.stopPropagation()} // Prevent clicks from bubbling
+                onClick={(e) => e.stopPropagation()}
               />
             </div>
           </DraggableItem>

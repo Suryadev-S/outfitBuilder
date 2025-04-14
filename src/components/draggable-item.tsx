@@ -12,7 +12,7 @@ interface DraggableItemProps {
   children: React.ReactNode
 }
 
-// Update the DraggableItem component to prevent unintended movement
+
 export default function DraggableItem({ id, position, updatePosition, children }: DraggableItemProps) {
   const ref = useRef<HTMLDivElement>(null)
 
@@ -24,10 +24,10 @@ export default function DraggableItem({ id, position, updatePosition, children }
     }),
   }))
 
-  // Only update position when actually dragging, not on random clicks
+  
   useEffect(() => {
     const handleMouseUp = (e: MouseEvent) => {
-      // Only process if we were actually dragging the item
+      
       if (isDragging && ref.current) {
         const rect = ref.current.getBoundingClientRect()
         const canvasRect = document.getElementById("outfit-canvas")?.getBoundingClientRect()
@@ -36,24 +36,24 @@ export default function DraggableItem({ id, position, updatePosition, children }
           const x = rect.left - canvasRect.left + rect.width / 2
           let y = rect.top - canvasRect.top + rect.height / 2
 
-          // Get the item type from the data attribute
+        
           const itemType = ref.current.getAttribute("data-type")
 
-          // Apply positioning constraints based on item type
+        
           if (itemType) {
             const canvasHeight = canvasRect.height
 
             switch (itemType) {
               case "tops":
-                y = Math.min(y, canvasHeight * 0.3) // Keep tops in the top 30% of canvas
+                y = Math.min(y, canvasHeight * 0.3) 
                 break
               case "bottoms":
-                y = Math.max(Math.min(y, canvasHeight * 0.6), canvasHeight * 0.4) // Middle area
+                y = Math.max(Math.min(y, canvasHeight * 0.6), canvasHeight * 0.4) 
                 break
               case "shoes":
-                y = Math.max(y, canvasHeight * 0.7) // Keep shoes in bottom 30% of canvas
+                y = Math.max(y, canvasHeight * 0.7) 
                 break
-              // Accessories can be placed anywhere
+            
             }
           }
 
@@ -68,7 +68,7 @@ export default function DraggableItem({ id, position, updatePosition, children }
     }
   }, [updatePosition, isDragging])
 
-  // Set initial position
+
   useEffect(() => {
     if (ref.current) {
       ref.current.style.left = `${position.x}px`
@@ -76,7 +76,7 @@ export default function DraggableItem({ id, position, updatePosition, children }
     }
   }, [position])
 
-  // Add data-type attribute to the div
+
   return (
     <div
       ref={(node) => {

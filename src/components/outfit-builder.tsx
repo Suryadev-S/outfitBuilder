@@ -5,44 +5,42 @@ import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-// import { useToast } from "@/hooks/use-toast"
 import ClothingItem from "./clothing-item"
 import OutfitCanvas from "./outfit-canvas"
 
-// Update the clothingItems data to include type
 const clothingItems = {
   tops: [
-    { id: "top1", name: "White T-Shirt", image: "https://picsum.photos/seed/top1/150/150", price: 19.99, type: "tops" },
-    { id: "top2", name: "Black Sweater", image: "https://picsum.photos/seed/top2/150/150", price: 29.99, type: "tops" },
-    { id: "top3", name: "Blue Blouse", image: "https://picsum.photos/seed/top3/150/150", price: 24.99, type: "tops" },
-    { id: "top4", name: "Red Hoodie", image: "https://picsum.photos/seed/top4/150/150", price: 34.99, type: "tops" },
+    { id: "top1", name: "White T-Shirt", image: "/tops/top1.jpg", price: 19.99, type: "tops" },
+    { id: "top2", name: "Black Sweater", image: "/tops/top2.jpg", price: 29.99, type: "tops" },
+    { id: "top3", name: "Blue Blouse", image: "/tops/top3.jpg", price: 24.99, type: "tops" },
+    { id: "top4", name: "Red Hoodie", image: "/tops/top4.jpg", price: 34.99, type: "tops" },
   ],
   bottoms: [
     {
       id: "bottom1",
       name: "Blue Jeans",
-      image: "https://picsum.photos/seed/bottom1/150/150",
+      image: "/bottoms/bottom1.jpg",
       price: 39.99,
       type: "bottoms",
     },
     {
       id: "bottom2",
       name: "Black Pants",
-      image: "https://picsum.photos/seed/bottom2/150/150",
+      image: "/bottoms/bottom2.jpg",
       price: 44.99,
       type: "bottoms",
     },
     {
       id: "bottom3",
       name: "Khaki Shorts",
-      image: "https://picsum.photos/seed/bottom3/150/150",
+      image: "/bottoms/bottom3.jpg",
       price: 29.99,
       type: "bottoms",
     },
     {
       id: "bottom4",
       name: "Denim Skirt",
-      image: "https://picsum.photos/seed/bottom4/150/150",
+      image: "/bottoms/bottom4.jpg",
       price: 34.99,
       type: "bottoms",
     },
@@ -51,52 +49,52 @@ const clothingItems = {
     {
       id: "shoe1",
       name: "White Sneakers",
-      image: "https://picsum.photos/seed/shoe1/150/150",
+      image: "/shoes/shoes1.jpg",
       price: 59.99,
       type: "shoes",
     },
     {
       id: "shoe2",
       name: "Black Boots",
-      image: "https://picsum.photos/seed/shoe2/150/150",
+      image: "/shoes/shoes2.jpg",
       price: 79.99,
       type: "shoes",
     },
     {
       id: "shoe3",
       name: "Brown Loafers",
-      image: "https://picsum.photos/seed/shoe3/150/150",
+      image: "/shoes/shoes3.jpg",
       price: 69.99,
       type: "shoes",
     },
-    { id: "shoe4", name: "Sandals", image: "https://picsum.photos/seed/shoe4/150/150", price: 49.99, type: "shoes" },
+    { id: "shoe4", name: "Sandals", image: "/shoes/shoes4.jpg", price: 49.99, type: "shoes" },
   ],
   accessories: [
     {
       id: "acc1",
-      name: "Silver Necklace",
-      image: "https://picsum.photos/seed/acc1/150/150",
+      name: "belt",
+      image: "/accessories/belt.jpg",
       price: 29.99,
       type: "accessories",
     },
     {
       id: "acc2",
-      name: "Gold Earrings",
-      image: "https://picsum.photos/seed/acc2/150/150",
+      name: "belt",
+      image: "/accessories/belt2.jpg",
       price: 24.99,
       type: "accessories",
     },
     {
       id: "acc3",
-      name: "Black Belt",
-      image: "https://picsum.photos/seed/acc3/150/150",
+      name: "cap",
+      image: "/accessories/cap.jpg",
       price: 19.99,
       type: "accessories",
     },
     {
       id: "acc4",
       name: "Sunglasses",
-      image: "https://picsum.photos/seed/acc4/150/150",
+      image: "/accessories/sunglasses.jpg",
       price: 14.99,
       type: "accessories",
     },
@@ -107,13 +105,9 @@ export default function OutfitBuilder() {
   const [selectedOutfit, setSelectedOutfit] = useState<
     Array<{ id: string; name: string; image: string; price: number; position: { x: number; y: number } }>
   >([])
-  // const { toast } = useToast()
 
-  // Update the addToOutfit function to replace items of the same category
   const addToOutfit = (item: { id: string; name: string; image: string; price: number; type?: string }) => {
-    // Check if an item of the same type already exists in the outfit
     const existingItemIndex = selectedOutfit.findIndex((outfitItem) => {
-      // Extract type from id if not explicitly provided
       const outfitItemType = outfitItem.id.includes("top")
         ? "tops"
         : outfitItem.id.includes("bottom")
@@ -135,10 +129,8 @@ export default function OutfitBuilder() {
       return outfitItemType === newItemType
     })
 
-    // Calculate position based on item type
-    let position = { x: 250, y: 250 } // Default center position
+    let position = { x: 250, y: 250 }
 
-    // Canvas dimensions (approximate)
     const canvasWidth = 500
     const canvasHeight = 500
 
@@ -153,7 +145,6 @@ export default function OutfitBuilder() {
         position = { x: canvasWidth / 2, y: 400 }
         break
       case "accessories":
-        // Randomly position accessories on either side
         const side = Math.random() > 0.5 ? 1 : -1
         position = {
           x: canvasWidth / 2 + side * 100,
@@ -162,9 +153,7 @@ export default function OutfitBuilder() {
         break
     }
 
-    // If an item of the same type exists, replace it
     if (existingItemIndex !== -1) {
-      // Use the position of the existing item for a smoother replacement
       position = selectedOutfit[existingItemIndex].position
 
       const updatedOutfit = [...selectedOutfit]
@@ -174,7 +163,6 @@ export default function OutfitBuilder() {
       }
       setSelectedOutfit(updatedOutfit)
     } else {
-      // Add new item to outfit with calculated position
       setSelectedOutfit([
         ...selectedOutfit,
         {
@@ -202,24 +190,14 @@ export default function OutfitBuilder() {
 
   const addToCart = () => {
     if (selectedOutfit.length === 0) {
-      // toast({
-      //   title: "Empty outfit",
-      //   description: "Please add items to your outfit first",
-      //   variant: "destructive",
-      // })
       alert("empty outfit")
       return
     }
 
     const totalPrice = selectedOutfit.reduce((sum, item) => sum + item.price, 0)
 
-    // toast({
-    //   title: "Added to cart!",
-    //   description: `${selectedOutfit.length} items added to cart. Total: $${totalPrice.toFixed(2)}`,
-    // })
     alert('added to cart')
 
-    // In a real app, you would send this to your cart/checkout system
     console.log("Added to cart:", selectedOutfit)
   }
 

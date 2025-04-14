@@ -9,7 +9,7 @@ interface ClothingItemProps {
     name: string
     image: string
     price: number
-    type?: string// Add type property
+    type?: string
   }
   onAddToOutfit: (item: { id: string; name: string; image: string; price: number; type?: string }) => void
 }
